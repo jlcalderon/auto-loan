@@ -1,0 +1,21 @@
+.footer {
+  background-color: #7e002a;
+  padding: 25px 25px 25px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.sub-jumbo {
+  font-family: "Roboto", sans-serif;
+  font-size: x-large;
+}
+
+.social-media {
+  margin: 10px;
+  padding: 10px 10px 10px;
+  color: #ffffff;
+}
+
+.fab {
+  margin: 10px;
+}

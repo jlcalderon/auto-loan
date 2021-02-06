@@ -1,0 +1,10 @@
+.form-control {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.primary-button {
+  background-color: #28833e;
+  color: #ffffff;
+  border-radius: 20%;
+}

@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Tomorrow:ital,wght@1,200&display=swap");
+
+.logo {
+  font-family: "Tomorrow", sans-serif;
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.logo:hover {
+  color: #e0e0e0;
+}
+
+.top-navigation {
+  background-color: #7e002a;
+  padding: 10px 10px 10px;
+  color: #ffffff;
+}
+
+.nav-link {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.nav-link:hover {
+  color: #e0e0e0;
+}
