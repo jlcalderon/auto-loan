@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./FormApplication.css";
 const FormApplication = () => {
+  const [loanApplication, setLoanApplication] = useState({});
+  const [creditScore, setCreditScore] = useState(300);
+
   return (
     <form>
       <div className="form-group">
@@ -30,6 +33,7 @@ const FormApplication = () => {
               type="range"
               min="0"
               max="1000"
+              value={creditScore}
               step="100"
               list="tickmarks"
               className="credit-scores-range"
@@ -50,7 +54,7 @@ const FormApplication = () => {
           </div>
         </div>
         <div className="col">
-          <h1 className="jumbo-scores">100{} Pts</h1>
+          <h1 className="jumbo-scores">{creditScore} Pts</h1>
         </div>
       </div>
       <div className="form-group">
