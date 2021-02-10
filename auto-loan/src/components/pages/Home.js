@@ -1,10 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import "./Home.css";
 import FormApplication from "./component/FormApplication";
 import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
 
 const Home = () => {
+  const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);
+  const updatedPurchasePrice = useSelector(
+    (state) => state.autoLoanApplication.updatedPurchasePrice
+  );
   return (
     <div>
       <Navbar />
@@ -31,10 +36,15 @@ const Home = () => {
             <div className="form-wrapper">
               <div className="forms">
                 <p>
-                  See if you qualify please, submit this form to verify your
+                  See if you qualify.! Please, submit this form to verify your
                   eligibility.
                 </p>
                 <FormApplication />
+                <div className="msg-box">
+                  <p>{uiHints}</p>
+                  <hr />
+                  <p>Purchase Price: {updatedPurchasePrice}</p>
+                </div>
               </div>
             </div>
           </div>
