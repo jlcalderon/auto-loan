@@ -1,4 +1,4 @@
-import { SUBMIT_LOAN_APPLICATION } from "./actions";
+import { SUBMIT_LOAN_APPLICATION, UPDATE_CREDIT_SCORES } from "./actions";
 export const autoLoanApplication = (state = {}, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -7,7 +7,14 @@ export const autoLoanApplication = (state = {}, action) => {
       const newLoanApplication = {
         data,
       };
-      return (state = newLoanApplication);
+      return { ...state, newLoanApplication };
+    }
+    case UPDATE_CREDIT_SCORES: {
+      const { scores } = payload;
+      const updatedCreditScores = {
+        scores,
+      };
+      return { ...state, updatedCreditScores };
     }
     default:
       return state;

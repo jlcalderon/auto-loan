@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="social-media">
         <i className="fab fa-facebook"></i>
         <i className="fab fa-instagram"></i>
-        <i class="fab fa-twitter"></i>
+        <i className="fab fa-twitter"></i>
         <i className="fab fa-google-plus"></i>
       </div>
     </footer>
