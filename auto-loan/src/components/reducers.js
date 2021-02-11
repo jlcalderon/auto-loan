@@ -18,7 +18,12 @@ export const autoLoanApplication = (state = initialState, action) => {
       const loanApplication = {
         data,
       };
-      let uiHints = "Your application was submitted correctly";
+      let uiHints = initialState.uiHints;
+      if (JSON.stringify(loanApplication) !== "{}") {
+        //Compared to the stringfy version of an empty JSON object, because the object loanaplication is always a thruty value so this: !loanApplication would not do the check.
+        //Check if the json object from the component state has data in it to set uiHints properly
+        uiHints = "Your application was submitted correctly";
+      }
 
       return { ...state, uiHints, loanApplication };
     }
