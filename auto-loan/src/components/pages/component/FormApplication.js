@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"; //importing necesary hooks t
 import { connect } from "react-redux"; //Importing connect to wire up this component to redux store, reducers and actions
 import { submitLoanApplication, updatePurchasePrice } from "../../actions"; //Importing the predifined actions of the redux eco system tool
 import "./FormApplication.css"; //Importing some styling for this component
+import CurrencyInput from "react-currency-input-field";
+
 const FormApplication = ({
   onSubmitLoanFormApplication,
   onChangePurchasePrice,
@@ -15,7 +17,9 @@ const FormApplication = ({
 
   //Implementing useEffect hook to watch for changes in newApplication state of this component, to follow up with an update to the redux global state
   useEffect(() => {
-    onSubmitLoanFormApplication(newApplication); //Calling the submit form action from the dispatch to props included in this component
+    if (JSON.stringify(newApplication) !== "{ }") {
+      onSubmitLoanFormApplication(newApplication); //Calling the submit form action from the dispatch to props included in this component
+    }
   }, [newApplication]); //Wacthing for changes in newApplication state
 
   return (
@@ -36,15 +40,18 @@ const FormApplication = ({
       }}
     >
       <div className="form-group">
-        <input
-          type="text"
+        <CurrencyInput
+          id="input-price"
+          name="input-price"
           placeholder="Auto Purchase Price"
-          className="form-control"
-          value={purchasePrice}
-          onChange={(event) => {
-            onChangePurchasePrice(event.target.value);
-            setPurchasePrice(event.target.value);
+          defaultValue={purchasePrice}
+          groupSeparator=","
+          prefix="$"
+          onValueChange={(value) => {
+            onChangePurchasePrice(value);
+            setPurchasePrice(value);
           }}
+          className="form-control"
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
         />
       </div>
@@ -73,14 +80,17 @@ const FormApplication = ({
         />
       </div>
       <div className="form-group">
-        <input
-          type="text"
+        <CurrencyInput
+          id="input-income"
+          name="input-income"
           placeholder="My Estimated Yearly Income"
-          className="form-control"
-          value={income}
-          onChange={(event) => {
-            setIncome(event.target.value);
+          defaultValue={income}
+          groupSeparator=","
+          prefix="$"
+          onValueChange={(value) => {
+            setIncome(value);
           }}
+          className="form-control"
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
         />
       </div>

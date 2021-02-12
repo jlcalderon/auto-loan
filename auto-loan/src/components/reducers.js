@@ -30,14 +30,14 @@ export const autoLoanApplication = (state = initialState, action) => {
     case UPDATE_PURCHASE_PRICE: {
       const updatedPurchasePrice = payload;
       let uiHints = "";
-      if (updatedPurchasePrice >= 100000) {
+      if (updatedPurchasePrice > 1000000) {
         uiHints =
-          "Your purchase price is greater than $99,999 you might not be elegible";
+          "Your purchase price is above $1,000,000 you might not be elegible";
       } else if (updatedPurchasePrice <= 0) {
         uiHints = "Make sure the purchase price is correct";
       } else {
         uiHints =
-          "Tip 1: Purchase Price higher than $99,999 might make you not elegible for a loan";
+          "Tip 1: Purchase price above $1,000,000 might make you not elegible for a loan";
       }
       return { ...state, uiHints, updatedPurchasePrice };
     }
