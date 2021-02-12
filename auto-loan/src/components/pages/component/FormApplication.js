@@ -1,24 +1,48 @@
 import React, { useState, useEffect } from "react"; //importing necesary hooks to work the logic of state changes in this component
 import { connect } from "react-redux"; //Importing connect to wire up this component to redux store, reducers and actions
-import { submitLoanApplication, updatePurchasePrice } from "../../actions"; //Importing the predifined actions of the redux eco system tool
+import {
+  submitLoanApplication,
+  updatePurchasePrice,
+  updateAutoMake,
+  updateAutoModel,
+  updateIncome,
+  updateCreditScores,
+} from "../../actions"; //Importing the predifined actions of the redux eco system tool
 import "./FormApplication.css"; //Importing some styling for this component
-import CurrencyInput from "react-currency-input-field";
+import CurrencyInput from "react-currency-input-field"; //This react wrapper validates data type currency/numbers
+import { useHistory } from "react-router-dom";
 
 const FormApplication = ({
   onSubmitLoanFormApplication,
   onChangePurchasePrice,
+  onChangeAutoMake,
+  onChangeAutoModel,
+  onChangeIncome,
+  onChangeCreditScore,
 }) => {
   const [newApplication, setNewApplication] = useState({}); //Entire payload to submit to the API on actions all the input fields
   const [purchasePrice, setPurchasePrice] = useState(); //Handles the purchase price input field
   const [autoMake, setAutoMake] = useState(""); //Handles the auto make input text field control
   const [autoModel, setAutoModel] = useState(""); //Handles the auto model input text field control
   const [income, setIncome] = useState(); //Handles the income input text field control
-  const [creditScore, setCreditScore] = useState(300); //Handles the credit Score input range control
+  const [creditScore, setCreditScore] = useState(600); //Handles the credit Score input range control
 
   //Implementing useEffect hook to watch for changes in newApplication state of this component, to follow up with an update to the redux global state
   useEffect(() => {
-    if (JSON.stringify(newApplication) !== "{ }") {
+    if (JSON.stringify(newApplication) !== "{}") {
       onSubmitLoanFormApplication(newApplication); //Calling the submit form action from the dispatch to props included in this component
+      //API call here
+      /*fetch("/api/prequalification",
+      method: "POST",
+      body: newApplication,
+      type: "Application/JSON",
+      ); */
+
+      /* if response positive */
+      /* history.push("/registration"); */
+
+      /* if response negative or bad */
+      /* history.push("/disqualification"); */
     }
   }, [newApplication]); //Wacthing for changes in newApplication state
 
@@ -62,6 +86,7 @@ const FormApplication = ({
           className="form-control"
           value={autoMake}
           onChange={(event) => {
+            onChangeAutoMake(event.target.value);
             setAutoMake(event.target.value);
           }}
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
@@ -74,6 +99,7 @@ const FormApplication = ({
           className="form-control"
           value={autoModel}
           onChange={(event) => {
+            onChangeAutoModel(event.target.value);
             setAutoModel(event.target.value);
           }}
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
@@ -88,6 +114,12 @@ const FormApplication = ({
           groupSeparator=","
           prefix="$"
           onValueChange={(value) => {
+            onChangeIncome({
+              data: {
+                income: value,
+                price: purchasePrice,
+              },
+            });
             setIncome(value);
           }}
           className="form-control"
@@ -100,12 +132,13 @@ const FormApplication = ({
             <input
               type="range"
               min="0"
-              max="1000"
+              max="850"
               value={creditScore}
-              step="100"
+              step="50"
               list="tickmarks"
               className="credit-scores-range"
               onChange={(event) => {
+                onChangeCreditScore(event.target.value);
                 setCreditScore(event.target.value);
               }}
               required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
@@ -144,6 +177,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onSubmitLoanFormApplication: (data) => dispatch(submitLoanApplication(data)),
   onChangePurchasePrice: (price) => dispatch(updatePurchasePrice(price)),
+  onChangeAutoMake: (data) => dispatch(updateAutoMake(data)),
+  onChangeAutoModel: (data) => dispatch(updateAutoModel(data)),
+  onChangeIncome: (data) => dispatch(updateIncome(data)),
+  onChangeCreditScore: (credit) => dispatch(updateCreditScores(credit)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormApplication); //Conecting and exporting component

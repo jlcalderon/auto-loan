@@ -7,9 +7,6 @@ import Footer from "./component/Footer";
 
 const Home = () => {
   const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);
-  const updatedPurchasePrice = useSelector(
-    (state) => state.autoLoanApplication.updatedPurchasePrice
-  );
   return (
     <div>
       <Navbar />
@@ -41,9 +38,8 @@ const Home = () => {
                 </p>
                 <FormApplication />
                 <div className="msg-box">
-                  <p>{uiHints}</p>
                   <hr />
-                  <p>Purchase Price: {updatedPurchasePrice}</p>
+                  <p>{uiHints}</p>
                 </div>
               </div>
             </div>
