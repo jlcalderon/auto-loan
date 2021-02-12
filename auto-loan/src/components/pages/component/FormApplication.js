@@ -10,7 +10,7 @@ import {
 } from "../../actions"; //Importing the predifined actions of the redux eco system tool
 import "./FormApplication.css"; //Importing some styling for this component
 import CurrencyInput from "react-currency-input-field"; //This react wrapper validates data type currency/numbers
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"; //Move to the next page to let user know about the results of the applications
 
 const FormApplication = ({
   onSubmitLoanFormApplication,
@@ -26,23 +26,13 @@ const FormApplication = ({
   const [autoModel, setAutoModel] = useState(""); //Handles the auto model input text field control
   const [income, setIncome] = useState(); //Handles the income input text field control
   const [creditScore, setCreditScore] = useState(600); //Handles the credit Score input range control
+  let history = useHistory();
 
   //Implementing useEffect hook to watch for changes in newApplication state of this component, to follow up with an update to the redux global state
   useEffect(() => {
     if (JSON.stringify(newApplication) !== "{}") {
       onSubmitLoanFormApplication(newApplication); //Calling the submit form action from the dispatch to props included in this component
-      //API call here
-      /*fetch("/api/prequalification",
-      method: "POST",
-      body: newApplication,
-      type: "Application/JSON",
-      ); */
-
-      /* if response positive */
-      /* history.push("/registration"); */
-
-      /* if response negative or bad */
-      /* history.push("/disqualification"); */
+      history.push("/myapplication");
     }
   }, [newApplication]); //Wacthing for changes in newApplication state
 
