@@ -18,12 +18,13 @@ const initialState = {
   userCreditScore: 0,
   flags: 0, //This state prop is intented to handle flags raised by the results of the actions dispatched
   //flags codes:
-  /* 1 req submitted with data */
-  /* 2 purchase price above 1,000,000 not elegible for loan*/
-  /* 3 income is lower than a purchase price */
-  /* 4 purchase price is greater than a 1/5th of income */
-  /* 5 bad request data object in blank or purchase price <= 0*/
-  /* 6 bad request credit scores are lower than 600 */
+  /* 1 Data of price, income and credit are correct  */
+  /* 2 Purchase price above 1,000,000 not elegible for loan BAD REQUEST*/
+  /* 3 Income is lower than a purchase price */
+  /* 4 Purchase price is greater than a 1/5th of income */
+  /* 5 Purchase price is 0 or purchase price < 0 BAD REQUEST*/
+  /* 6 Credit scores are lower than 600*/
+  /* 7 Credit scores are ok but price is greater than 1/5th fo the income */
 };
 export const autoLoanApplication = (state = initialState, action) => {
   const { type, payload } = action;
@@ -46,7 +47,7 @@ export const autoLoanApplication = (state = initialState, action) => {
     case UPDATE_PURCHASE_PRICE: {
       const updatedPurchasePrice = payload;
       let uiHints = "";
-      let flags = initialState.flags;
+      let flags = state.flags;
       if (updatedPurchasePrice > 1000000) {
         uiHints =
           "Your purchase price is above $1,000,000 please correct the auto purchase price field";
@@ -81,7 +82,7 @@ export const autoLoanApplication = (state = initialState, action) => {
       const userEstimatedIncome = {
         data,
       };
-      let flags = initialState.flags;
+      let flags = state.flags;
       if (
         userEstimatedIncome.data.price >
         parseInt(userEstimatedIncome.data.income / 5, 10)
@@ -103,11 +104,17 @@ export const autoLoanApplication = (state = initialState, action) => {
     case UPDATE_CREDIT_SCORES: {
       const userCreditScore = payload;
       let uiHints = ``;
-      let flags = initialState.flags;
-      if (userCreditScore >= 600) {
+      let flags = state.flags;
+      if ((userCreditScore >= 600) & (flags === 4)) {
         uiHints = "Your credit scores look good!";
-        flags = 1;
-      } else if (userCreditScore < 600) {
+        flags = 4; //Keep flag state to fall in price greater than income
+      } else if ((userCreditScore >= 600) & (flags === 1)) {
+        uiHints = "Your credit scores look good!";
+        flags = 1; //Keep flag state to fall in price is ok
+      } else if ((userCreditScore < 600) & (flags === 4)) {
+        uiHints = "Tip 5: Your credit scores must be at least 600 pts or more.";
+        flags = 7;
+      } else if ((userCreditScore < 600) & (flags === 1)) {
         uiHints = "Tip 5: Your credit scores must be at least 600 pts or more.";
         flags = 6;
       }

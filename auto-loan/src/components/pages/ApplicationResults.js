@@ -9,19 +9,24 @@ import Footer from "./component/Footer";
 const ApplicationReults = () => {
   const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);
   const flags = useSelector((state) => state.autoLoanApplication.flags);
+  //flags codes:
+
+  /* 6 Credit scores are lower than 600*/
 
   //let history = useHistory();
   const [responseAPI, setResponseAPI] = useState({});
 
   useEffect(() => {
-    //This code is meant to serve as a mock fetch from an API.
-    if (flags === 2 || flags === 4 || flags === 5 || flags === 6) {
+    /* And here I am using the flags logic to resolve a response according to what the user pre-qualification results should be */
+    if (flags === 2 || flags === 5) {
+      //Handle bad request
+      //This code is meant to serve as a mock fetch from an API.
       new Promise(function (resolve) {
         setTimeout(() => {
           resolve({
-            title: "Bad Request",
+            title: "BAD REQUEST",
             body:
-              "Client error, you must submited an empty request to the server or make sure the purchase price is greater than 0 or your credit score might not be elegible for the loan",
+              "Client error, purchase price 0 or purchase price greater than 1,000,000 will default to not be elegible for the loan. Please contact us for more information: 999 999 9999",
             code: 400, //http request status code
           });
         }, 1000);
@@ -29,6 +34,74 @@ const ApplicationReults = () => {
         setResponseAPI(res);
       });
     }
+    //Handle good request
+    if (flags === 1) {
+      //Positive request everything ok
+      //This code is meant to serve as a mock fetch from an API.
+      new Promise(function (resolve) {
+        setTimeout(() => {
+          resolve({
+            title: "Congratulations!",
+            body: "You are eligible for a loan to make your auto purchase",
+            code: 200, //http request status code
+          });
+        }, 1000);
+      }).then((res) => {
+        setResponseAPI(res);
+      });
+    }
+
+    if (flags === 3 || flags === 4) {
+      //Handle income issues with the request
+      //This code is meant to serve as a mock fetch from an API.
+      new Promise(function (resolve) {
+        setTimeout(() => {
+          resolve({
+            title: "There is an issue with your income",
+            body:
+              "Unfortunetely, you are not eligible for a loan to make your auto purchase due the purchase price you are appling for. Please contact us for more information: 999 999 9999",
+            code: 200, //http request status code
+          });
+        }, 1000);
+      }).then((res) => {
+        setResponseAPI(res);
+      });
+    }
+
+    if (flags === 7) {
+      //Request with credit scores ok but price is not
+      //This code is meant to serve as a mock fetch from an API.
+      new Promise(function (resolve) {
+        setTimeout(() => {
+          resolve({
+            title: "There is an issue with your application",
+            body:
+              "Unfortunetely, you are not eligible for a loan to make your auto purchase. Your credit scores are ok but your purchse price is greater than 1/5th of your income. Please contact us for more information: 999 999 9999",
+            code: 200, //http request status code
+          });
+        }, 1000);
+      }).then((res) => {
+        setResponseAPI(res);
+      });
+    }
+    if (flags === 6) {
+      //Handle request with with lowe credit scores
+      //This code is meant to serve as a mock fetch from an API.
+      new Promise(function (resolve) {
+        setTimeout(() => {
+          resolve({
+            title: "There is an issue with your application",
+            body:
+              "Unfortunetely, you are not eligible for a loan to make your auto purchase. Your credit scores are lower than 600. Please contact us for more information: 999 999 9999",
+            code: 200, //http request status code
+          });
+        }, 1000);
+      }).then((res) => {
+        setResponseAPI(res);
+      });
+    }
+
+    /* In a real world situation here we would make a fetch, axios.get, or ajax.get request instead of the function and logic above */
   }, []); //Execute when component did mount
 
   return (

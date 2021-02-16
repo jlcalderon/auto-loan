@@ -38,9 +38,9 @@ const FormApplication = ({
 
   return (
     <form
+      /*This form also could make the post request itself, if we add attributes such as method="POST" and actions linked to a Api Route especified in a js file*/
       onSubmit={(event) => {
         event.preventDefault(); //Always a good practice to call preventDefault() first when submitting a form
-
         setNewApplication({
           data: {
             //Formatting the data into a JSON object as follow:
