@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-//import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "./ApplicationResults.css";
-//import FormRegistration from "./component/FormRegistration";
+import FormRegistration from "./component/FormRegistration";
 import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
 
@@ -10,10 +10,15 @@ const ApplicationReults = () => {
   const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);
   const flags = useSelector((state) => state.autoLoanApplication.flags);
   //flags codes:
-
+  /* 1 Data of price, income and credit are correct  */
+  /* 2 Purchase price above 1,000,000 not elegible for loan BAD REQUEST*/
+  /* 3 Income is lower than a purchase price */
+  /* 4 Purchase price is greater than a 1/5th of income */
+  /* 5 Purchase price is 0 or purchase price < 0 BAD REQUEST*/
   /* 6 Credit scores are lower than 600*/
+  /* 7 Credit scores are ok but price is greater than 1/5th fo the income */
 
-  //let history = useHistory();
+  let history = useHistory();
   const [responseAPI, setResponseAPI] = useState({});
 
   useEffect(() => {
@@ -60,7 +65,7 @@ const ApplicationReults = () => {
             title: "There is an issue with your income",
             body:
               "Unfortunetely, you are not eligible for a loan to make your auto purchase due the purchase price you are appling for. Please contact us for more information: 999 999 9999",
-            code: 200, //http request status code
+            code: 201, //http request status code
           });
         }, 1000);
       }).then((res) => {
@@ -77,7 +82,7 @@ const ApplicationReults = () => {
             title: "There is an issue with your application",
             body:
               "Unfortunetely, you are not eligible for a loan to make your auto purchase. Your credit scores are ok but your purchse price is greater than 1/5th of your income. Please contact us for more information: 999 999 9999",
-            code: 200, //http request status code
+            code: 201, //http request status code
           });
         }, 1000);
       }).then((res) => {
@@ -93,7 +98,7 @@ const ApplicationReults = () => {
             title: "There is an issue with your application",
             body:
               "Unfortunetely, you are not eligible for a loan to make your auto purchase. Your credit scores are lower than 600. Please contact us for more information: 999 999 9999",
-            code: 200, //http request status code
+            code: 201, //http request status code
           });
         }, 1000);
       }).then((res) => {
@@ -103,38 +108,43 @@ const ApplicationReults = () => {
 
     /* In a real world situation here we would make a fetch, axios.get, or ajax.get request instead of the function and logic above */
   }, []); //Execute when component did mount
+  const resStatusCode = responseAPI.code;
 
   return (
     <div>
       <Navbar />
       <div className="container" style={{ margin: "20px" }}>
         <h1 className="sub-jumbo">{uiHints}</h1>
-        <p> {responseAPI.title} </p>
-        <p> {responseAPI.body} </p>
-        <p> {responseAPI.code} </p>
         {/* Conditional rendering */}
-        {/* if apiResponse positive */
-        /* <div className="container-wrapper">
-                    <div className="row">
-                    <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12"></div>
-                    </div>
-                    <div className="row">
-                    <div className="col-sm-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 offset-xl-4 col-xl-4">
-                        <h1 className="sub-jumbo">Create Your Account</h1>
-                        <div className="form-wrapper">
-                        <div className="forms">
-                            <FormRegistration />
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>*/}
-        {/* if apiResponse negative*/
-        /* history.push("/disqualification"); */}
-        {/*if apiResponse is a bad request status code*/
-        /* <h1>BAD REQUEST</h1>*/
-        /* <div> {msg} </div>*/
-        /** <div>Contact</div> */}
+        {resStatusCode === 200 ? ( //apiResponse positive
+          <div className="container-wrapper">
+            <div className="row">
+              <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12"></div>
+            </div>
+            <div className="row">
+              <div className="col-sm-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 offset-xl-4 col-xl-4">
+                <h1 className="sub-jumbo">Create Your Account</h1>
+                <div className="form-wrapper">
+                  <div className="forms">
+                    <FormRegistration />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        {/* if apiResponse negative*/}
+        {resStatusCode === 201 ? history.push("/disqualification") : null}
+
+        {/*if apiResponse is a bad request status code*/}
+        {resStatusCode === 400 ? (
+          <div>
+            <p> {responseAPI.title} </p>
+            <p> {responseAPI.body} </p>
+            <p> {responseAPI.code} </p>
+          </div>
+        ) : null}
       </div>
       <Footer />
     </div>

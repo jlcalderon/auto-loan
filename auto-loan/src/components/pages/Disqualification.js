@@ -11,7 +11,10 @@ const Disqualification = () => {
             Thank you for submitting the pre- qualification form, unfortunetly,
             this time you don’t qualify for the loan.
           </p>
+
           <h1 className="logo">AUTO-LOAN</h1>
+
+          <small>For more information please contact us: 999 999 9999</small>
         </div>
       </div>
     </div>
