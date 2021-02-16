@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 import "./ApplicationResults.css";
-import FormRegistration from "./component/FormRegistration";
+//import FormRegistration from "./component/FormRegistration";
 import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
 
 const ApplicationReults = () => {
-  const [apiResponse, setApiResponse] = useState({});
   const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);
-  let history = useHistory();
+  const flags = useSelector((state) => state.autoLoanApplication.flags);
+
+  //let history = useHistory();
+  const [responseAPI, setResponseAPI] = useState({});
 
   useEffect(() => {
-    //API call here
-    /*fetch("/api/prequalification",
-      method: "POST",
-      body: newApplication,
-      type: "Application/JSON",
-      ); */
-    /** setApiResponse(whatever the fetch return is)*/
+    //This code is meant to serve as a mock fetch from an API.
+    if (flags === 2 || flags === 4 || flags === 5 || flags === 6) {
+      new Promise(function (resolve) {
+        setTimeout(() => {
+          resolve({
+            title: "Bad Request",
+            body:
+              "Client error, you must submited an empty request to the server or make sure the purchase price is greater than 0 or your credit score might not be elegible for the loan",
+            code: 400, //http request status code
+          });
+        }, 1000);
+      }).then((res) => {
+        setResponseAPI(res);
+      });
+    }
   }, []); //Execute when component did mount
 
   return (
@@ -26,6 +36,9 @@ const ApplicationReults = () => {
       <Navbar />
       <div className="container" style={{ margin: "20px" }}>
         <h1 className="sub-jumbo">{uiHints}</h1>
+        <p> {responseAPI.title} </p>
+        <p> {responseAPI.body} </p>
+        <p> {responseAPI.code} </p>
         {/* Conditional rendering */}
         {/* if apiResponse positive */
         /* <div className="container-wrapper">
