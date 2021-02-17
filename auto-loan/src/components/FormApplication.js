@@ -62,8 +62,8 @@ const FormApplication = ({
           groupSeparator=","
           prefix="$"
           onValueChange={(value) => {
-            onChangePurchasePrice(value);
-            setPurchasePrice(value);
+            onChangePurchasePrice(parseInt(value, 10));
+            setPurchasePrice(parseInt(value, 10));
           }}
           className="form-control"
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
@@ -106,11 +106,11 @@ const FormApplication = ({
           onValueChange={(value) => {
             onChangeIncome({
               data: {
-                income: value,
+                income: parseInt(value, 10),
                 price: purchasePrice,
               },
             });
-            setIncome(value);
+            setIncome(parseInt(value, 10));
           }}
           className="form-control"
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
@@ -128,8 +128,8 @@ const FormApplication = ({
               list="tickmarks"
               className="credit-scores-range"
               onChange={(event) => {
-                onChangeCreditScore(event.target.value);
-                setCreditScore(event.target.value);
+                onChangeCreditScore(parseInt(event.target.value, 10));
+                setCreditScore(parseInt(event.target.value, 10));
               }}
               required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
             />

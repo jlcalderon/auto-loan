@@ -102,7 +102,7 @@ export const autoLoanApplication = (state = initialState, action) => {
     }
 
     case UPDATE_CREDIT_SCORES: {
-      const userCreditScore = payload;
+      const userCreditScore = parseInt(payload, 10); //Making sure the apyload is a integer number
       let uiHints = ``;
       let flags = state.flags;
       if ((userCreditScore >= 600) & (flags === 4)) {
@@ -117,6 +117,12 @@ export const autoLoanApplication = (state = initialState, action) => {
       } else if ((userCreditScore < 600) & (flags === 1)) {
         uiHints = "Tip 5: Your credit scores must be at least 600 pts or more.";
         flags = 6;
+      } else if (userCreditScore < 600) {
+        uiHints = "Tip 5: Your credit scores must be at least 600 pts or more.";
+        flags = 6;
+      } else if (userCreditScore >= 600) {
+        uiHints = "Your credit scores look good!";
+        flags = 1; //Keep flag state to fall in price is ok
       }
       return { ...state, uiHints, flags, userCreditScore };
     }
