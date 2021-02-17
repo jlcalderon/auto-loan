@@ -21,8 +21,8 @@ const Disqualification = () => {
       </div>
       <div className="row" style={{ marginTop: "20px" }}>
         <div className="col-sm-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 offset-xl-4 col-xl-4">
-          <h5>HTTP Request Status Code: {apiResponse.code}</h5>
-          <h5>{apiResponse.title}</h5>
+          <p>HTTP Request Status Code: {apiResponse.code}</p>
+          <h1 className="sub-jumbo">{apiResponse.title}</h1>
           <p>{apiResponse.body}</p>
         </div>
       </div>
