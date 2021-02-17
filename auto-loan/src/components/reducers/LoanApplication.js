@@ -15,7 +15,7 @@ const initialState = {
   autoMake: "",
   autoModel: "",
   userEstimatedIncome: 0,
-  userCreditScore: 0,
+  userCreditScore: 600,
   flags: 0, //This state prop is intented to handle flags raised by the results of the actions dispatched
   //flags codes:
   /* 1 Data of price, income and credit are correct  */
