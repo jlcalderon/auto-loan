@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./ApplicationResults.css";
 import FormRegistration from "../FormRegistration";
@@ -19,6 +19,7 @@ const ApplicationReults = () => {
   /* 7 Credit scores are ok but price is greater than 1/5th fo the income */
 
   let history = useHistory();
+  const dispatch = useDispatch();
   const [responseAPI, setResponseAPI] = useState({});
 
   useEffect(() => {
@@ -31,12 +32,14 @@ const ApplicationReults = () => {
           resolve({
             title: "BAD REQUEST",
             body:
-              "Client error, purchase price equal to 0 or purchase price above 1,000,000 will default to not be elegible for the loan. Please contact us for more information: 999 999 9999",
+              "Client error: The purchase price is equal to 0 or above 1,000,000. Provided that, your application will default to not be elegible for the loan. Please contact us for more information: 999 999 9999",
             code: 400, //http request status code
           });
         }, 1000);
       }).then((res) => {
         setResponseAPI(res);
+        //Dispatch action to store response in redux global state
+        dispatch({ type: "STORE_API_RESPONSE", payload: res });
       });
     }
     //Handle good request
@@ -53,6 +56,8 @@ const ApplicationReults = () => {
         }, 1000);
       }).then((res) => {
         setResponseAPI(res);
+        //Dispatch action to store response in redux global state
+        dispatch({ type: "STORE_API_RESPONSE", payload: res });
       });
     }
 
@@ -62,14 +67,16 @@ const ApplicationReults = () => {
       new Promise(function (resolve) {
         setTimeout(() => {
           resolve({
-            title: "There is an issue with your income",
+            title: "There is an issue with your application",
             body:
-              "Unfortunetely, you are not eligible for a loan to make your auto purchase due the purchase price you are appling for. Please contact us for more information: 999 999 9999",
+              "Unfortunately, you are not eligible for a loan to make your auto purchase due the purchase price that you are appling for and your income. Please contact us for more information: 999 999 9999",
             code: 201, //http request status code
           });
         }, 1000);
       }).then((res) => {
         setResponseAPI(res);
+        //Dispatch action to store response in redux global state
+        dispatch({ type: "STORE_API_RESPONSE", payload: res });
       });
     }
 
@@ -81,12 +88,14 @@ const ApplicationReults = () => {
           resolve({
             title: "There is an issue with your application",
             body:
-              "Unfortunetely, you are not eligible for a loan to make your auto purchase. Your credit scores are ok but your purchse price is greater than 1/5th of your income. Please contact us for more information: 999 999 9999",
+              "Unfortunately, you are not eligible for a loan to make your auto purchase. Your credit scores are ok but your purchse price is greater than 1/5th of your income. Please contact us for more information: 999 999 9999",
             code: 201, //http request status code
           });
         }, 1000);
       }).then((res) => {
         setResponseAPI(res);
+        //Dispatch action to store response in redux global state
+        dispatch({ type: "STORE_API_RESPONSE", payload: res });
       });
     }
     if (flags === 6) {
@@ -97,12 +106,14 @@ const ApplicationReults = () => {
           resolve({
             title: "There is an issue with your application",
             body:
-              "Unfortunetely, you are not eligible for a loan to make your auto purchase. Your credit scores are lower than 600. Please contact us for more information: 999 999 9999",
+              "Unfortunately, you are not eligible for a loan to make your auto purchase. Your credit scores are lower than 600. Please contact us for more information: 999 999 9999",
             code: 201, //http request status code
           });
         }, 1000);
       }).then((res) => {
         setResponseAPI(res);
+        //Dispatch action to store response in redux global state
+        dispatch({ type: "STORE_API_RESPONSE", payload: res });
       });
     }
 

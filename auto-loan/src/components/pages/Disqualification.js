@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import "./Disqualification.css";
 //Here import useSelector from redux
 
 const Disqualification = () => {
-  const [apiResponse, setResponseAPI] = useState({});
-
-  //Here useSelector to grab API response and set it up to a state variable
-
-  //Here temporary mocking waht the useSelector will do
-  useEffect(() => {
-    setResponseAPI({
-      title: "There is an issue with your application",
-      body:
-        "Unfortunetely, you are not eligible for a loan to make your auto purchase. Your credit scores are lower than 600. Please contact us for more information: 999 999 9999",
-      code: 201, //http request status code
-    });
-  }, []);
+  //Here useSelector to grab API response from store
+  const apiResponse = useSelector(
+    (state) => state.autoLoanApplicationResults.applicationResults
+  );
 
   return (
     <div className="container-wrapper">
       <div className="row">
         <div className="col-sm-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 offset-xl-4 col-xl-4">
           <img src="../../../img/sad.png" alt="Lorem Ipsum" width="25%"></img>
-          <h1 className="sub-jumbo">
+          <h1 className="sub-jumbo" style={{ marginTop: "20px" }}>
             Thank you for submitting the pre-qualification form
           </h1>
         </div>
