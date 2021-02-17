@@ -31,7 +31,7 @@ const ApplicationReults = () => {
           resolve({
             title: "BAD REQUEST",
             body:
-              "Client error, purchase price 0 or purchase price greater than 1,000,000 will default to not be elegible for the loan. Please contact us for more information: 999 999 9999",
+              "Client error, purchase price equal to 0 or purchase price above 1,000,000 will default to not be elegible for the loan. Please contact us for more information: 999 999 9999",
             code: 400, //http request status code
           });
         }, 1000);
@@ -113,17 +113,24 @@ const ApplicationReults = () => {
   return (
     <div>
       <Navbar />
-      <div className="container" style={{ margin: "20px" }}>
+      <div
+        className="container"
+        style={{ margin: "25px", textAlign: "center" }}
+      >
         <h1 className="sub-jumbo">{uiHints}</h1>
         {/* Conditional rendering */}
         {resStatusCode === 200 ? ( //apiResponse positive
           <div className="container-wrapper">
             <div className="row">
-              <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12"></div>
+              <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <h1 className="sub-jumbo">
+                  Congratulations you qualify for an auto loan!
+                </h1>
+              </div>
             </div>
             <div className="row">
               <div className="col-sm-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 offset-xl-4 col-xl-4">
-                <h1 className="sub-jumbo">Create Your Account</h1>
+                <h1 className="sub-jumbo">Step 2: Create Your Account</h1>
                 <div className="form-wrapper">
                   <div className="forms">
                     <FormRegistration />
@@ -134,17 +141,35 @@ const ApplicationReults = () => {
           </div>
         ) : null}
 
-        {/* if apiResponse negative*/}
-        {resStatusCode === 201 ? history.push("/disqualification") : null}
-
         {/*if apiResponse is a bad request status code*/}
         {resStatusCode === 400 ? (
-          <div>
-            <p> {responseAPI.title} </p>
-            <p> {responseAPI.body} </p>
-            <p> {responseAPI.code} </p>
+          <div className="container">
+            <div
+              className="row"
+              style={{ marginTop: "45px", textAlign: "center" }}
+            >
+              <div className="col">
+                <h5>HTTP Request Status Code: {responseAPI.code}</h5>
+                <h5>{responseAPI.title}</h5>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <p
+                  style={{
+                    padding: "50px",
+                    textAlign: "justify",
+                  }}
+                >
+                  {responseAPI.body}
+                </p>
+              </div>
+            </div>
           </div>
         ) : null}
+
+        {/* if apiResponse negative*/}
+        {resStatusCode === 201 ? history.push("/disqualification") : null}
       </div>
       <Footer />
     </div>

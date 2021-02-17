@@ -58,6 +58,7 @@ export const autoLoanApplication = (state = initialState, action) => {
       } else {
         uiHints =
           "Tip 1: Purchase price above $1,000,000 might make you not elegible for a loan";
+        //HERE need to verify changes on income and credit score
         flags = 1;
       }
       return { ...state, uiHints, flags, updatedPurchasePrice };
@@ -83,20 +84,28 @@ export const autoLoanApplication = (state = initialState, action) => {
         data,
       };
       let flags = state.flags;
-      if (
-        userEstimatedIncome.data.price >
-        parseInt(userEstimatedIncome.data.income / 5, 10)
-      ) {
-        uiHints = `You might not be elegible with this income, please verify that the purchase price is not more than 1/5th of your income`;
-        flags = 4;
-      } else if (
-        userEstimatedIncome.data.price <=
-        parseInt(userEstimatedIncome.data.income / 5, 10)
-      ) {
-        uiHints = `Your income would help your application stand out, way to go.`;
-        flags = 1;
+      if (flags === 2 || flags === 5) {
+        //HERE verify first the purchase price
+        uiHints =
+          "Your estimated yearly income must be greater than the purchase price typed above. Remember, your purchase price is not good for a considering you for an auto loan";
       } else {
-        uiHints = `Tip 4: Your estimated yearly income must be greater than the purchase price typed above`;
+        //If purchase price is correct go over verifying the income
+        if (
+          userEstimatedIncome.data.price >
+          parseInt(userEstimatedIncome.data.income / 5, 10)
+        ) {
+          uiHints = `You might not be elegible with this income, please verify that the purchase price is not more than 1/5th of your income`;
+          flags = 4;
+        } else if (
+          userEstimatedIncome.data.price <=
+          parseInt(userEstimatedIncome.data.income / 5, 10)
+        ) {
+          uiHints = `Your income would help your application stand out, way to go.`;
+          flags = 1;
+        } else {
+          //Here Verify credit scores
+          uiHints = `Tip 4: Your estimated yearly income must be greater than the purchase price typed above`;
+        }
       }
       return { ...state, uiHints, flags, userEstimatedIncome };
     }
@@ -105,24 +114,34 @@ export const autoLoanApplication = (state = initialState, action) => {
       const userCreditScore = parseInt(payload, 10); //Making sure the apyload is a integer number
       let uiHints = ``;
       let flags = state.flags;
-      if ((userCreditScore >= 600) & (flags === 4)) {
-        uiHints = "Your credit scores look good!";
-        flags = 4; //Keep flag state to fall in price greater than income
-      } else if ((userCreditScore >= 600) & (flags === 1)) {
-        uiHints = "Your credit scores look good!";
-        flags = 1; //Keep flag state to fall in price is ok
-      } else if ((userCreditScore < 600) & (flags === 4)) {
-        uiHints = "Tip 5: Your credit scores must be at least 600 pts or more.";
-        flags = 7;
-      } else if ((userCreditScore < 600) & (flags === 1)) {
-        uiHints = "Tip 5: Your credit scores must be at least 600 pts or more.";
-        flags = 6;
-      } else if (userCreditScore < 600) {
-        uiHints = "Tip 5: Your credit scores must be at least 600 pts or more.";
-        flags = 6;
-      } else if (userCreditScore >= 600) {
-        uiHints = "Your credit scores look good!";
-        flags = 1; //Keep flag state to fall in price is ok
+      if (flags === 2 || flags === 5) {
+        //HERE verify first the purchase price
+        uiHints =
+          "Remember, your purchase price is out of our range for an auto loan";
+      } else {
+        //Here verify income and then/else credit score
+        if ((userCreditScore >= 600) & (flags === 4)) {
+          uiHints = "Your credit scores look good!";
+          flags = 4; //Keep flag state to fall in price greater than income
+        } else if ((userCreditScore >= 600) & (flags === 1)) {
+          uiHints = "Your credit scores look good!";
+          flags = 1; //Keep flag state to fall in price is ok
+        } else if ((userCreditScore < 600) & (flags === 4)) {
+          uiHints =
+            "Tip 5: Your credit scores must be at least 600 pts or more.";
+          flags = 7;
+        } else if ((userCreditScore < 600) & (flags === 1)) {
+          uiHints =
+            "Tip 5: Your credit scores must be at least 600 pts or more.";
+          flags = 6;
+        } else if (userCreditScore < 600) {
+          uiHints =
+            "Tip 5: Your credit scores must be at least 600 pts or more.";
+          flags = 6;
+        } else if (userCreditScore >= 600) {
+          uiHints = "Your credit scores look good!";
+          flags = 1; //Keep flag state to fall in price is ok
+        }
       }
       return { ...state, uiHints, flags, userCreditScore };
     }
