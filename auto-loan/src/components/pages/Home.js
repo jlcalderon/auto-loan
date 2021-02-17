@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "./Home.css";
-import FormApplication from "./component/FormApplication";
-import Navbar from "./component/Navbar";
-import Footer from "./component/Footer";
+import FormApplication from "../FormApplication";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 const Home = () => {
   const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);

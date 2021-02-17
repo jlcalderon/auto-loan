@@ -5,12 +5,12 @@ import {
   UPDATE_AUTO_MODEL,
   UPDATE_INCOME,
   UPDATE_CREDIT_SCORES,
-} from "./actions";
+} from "../actions/LoanApplication";
 
 const initialState = {
   loanApplication: {},
   uiHints:
-    "Hi there! I will be here to help you fill out your loan pre qualification form",
+    "Hi there! I will be here to help you fill out your loan pre qualification form", //Help users by displaying message when they are wrong or rigth typing the info in the form
   updatedPurchasePrice: 0,
   autoMake: "",
   autoModel: "",

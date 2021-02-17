@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./ApplicationResults.css";
-import FormRegistration from "./component/FormRegistration";
-import Navbar from "./component/Navbar";
-import Footer from "./component/Footer";
+import FormRegistration from "../FormRegistration";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 const ApplicationReults = () => {
   const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);
@@ -107,7 +107,7 @@ const ApplicationReults = () => {
     }
 
     /* In a real world situation here we would make a fetch, axios.get, or ajax.get request instead of the function and logic above */
-  }, []); //Execute when component did mount
+  });
   const resStatusCode = responseAPI.code;
 
   return (

@@ -1,8 +1,8 @@
 import React from "react";
 import "./Registration.css";
-import FormRegistration from "./component/FormRegistration";
-import Navbar from "./component/Navbar";
-import Footer from "./component/Footer";
+import FormRegistration from "../FormRegistration";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 const Registration = () => {
   return (

@@ -7,7 +7,7 @@ import {
   updateAutoModel,
   updateIncome,
   updateCreditScores,
-} from "../../actions"; //Importing the predifined actions of the redux eco system tool
+} from "./actions/LoanApplication"; //Importing the predifined actions of the redux eco system tool
 import "./FormApplication.css"; //Importing some styling for this component
 import CurrencyInput from "react-currency-input-field"; //This react wrapper validates data type currency/numbers
 import { useHistory } from "react-router-dom"; //Move to the next page to let user know about the results of the applications
@@ -34,7 +34,7 @@ const FormApplication = ({
       onSubmitLoanFormApplication(newApplication); //Calling the submit form action from the dispatch to props included in this component
       history.push("/myapplication");
     }
-  }, [newApplication]); //Wacthing for changes in newApplication state
+  });
 
   return (
     <form
