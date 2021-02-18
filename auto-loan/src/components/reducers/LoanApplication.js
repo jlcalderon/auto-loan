@@ -20,11 +20,10 @@ const initialState = {
   //flags codes:
   /* 1 Data of price, income and credit are correct  */
   /* 2 Purchase price above 1,000,000 not elegible for loan BAD REQUEST*/
-  /* 3 Income is lower than a purchase price */
-  /* 4 Purchase price is greater than a 1/5th of income */
-  /* 5 Purchase price is 0 or purchase price < 0 BAD REQUEST*/
-  /* 6 Credit scores are lower than 600*/
-  /* 7 Credit scores are ok but price is greater than 1/5th fo the income */
+  /* 3 Income is lower than a purchase price or price is greater than a 1/5th of income */
+  /* 4 Purchase price is 0 or purchase price < 0 BAD REQUEST*/
+  /* 5 Credit scores are lower than 600*/
+  /* 6 Credit scores are ok but price is greater than 1/5th fo the income */
 };
 export const autoLoanApplication = (state = initialState, action) => {
   const { type, payload } = action;
@@ -54,7 +53,7 @@ export const autoLoanApplication = (state = initialState, action) => {
         flags = 2;
       } else if (updatedPurchasePrice <= 0) {
         uiHints = "Make sure the purchase price is correct";
-        flags = 5;
+        flags = 4;
       } else {
         uiHints =
           "Tip 1: Purchase price above $1,000,000 might make you not elegible for a loan";
@@ -84,27 +83,33 @@ export const autoLoanApplication = (state = initialState, action) => {
         data,
       };
       let flags = state.flags;
-      if (flags === 2 || flags === 5) {
+      if (flags === 2 || flags === 4) {
         //HERE verify first the purchase price
         uiHints =
-          "Your estimated yearly income must be greater than the purchase price typed above. Remember, your purchase price is not good for a considering you for an auto loan";
+          "Your estimated yearly income must be greater than the purchase price typed above. Remember, your purchase price is not enough for a considering you for an auto loan";
+        //Flags remain with the privious setting of wrong purchase price
       } else {
         //If purchase price is correct go over verifying the income
         if (
           userEstimatedIncome.data.price >
-          parseInt(userEstimatedIncome.data.income / 5, 10)
+          parseInt(
+            userEstimatedIncome.data.income / 5,
+            10 ||
+              userEstimatedIncome.data.income < userEstimatedIncome.data.price
+          )
         ) {
-          uiHints = `You might not be elegible with this income, please verify that the purchase price is not more than 1/5th of your income`;
-          flags = 4;
+          uiHints = `Your income is lower than the purchase price, please correct the yearly income field`;
+          flags = 3;
         } else if (
           userEstimatedIncome.data.price <=
           parseInt(userEstimatedIncome.data.income / 5, 10)
         ) {
-          uiHints = `Your income would help your application stand out, way to go.`;
+          uiHints =
+            "Your income would help your application stand out, way to go.";
           flags = 1;
         } else {
-          //Here Verify credit scores
           uiHints = `Tip 4: Your estimated yearly income must be greater than the purchase price typed above`;
+          //flags remaind the same as the previous setting
         }
       }
       return { ...state, uiHints, flags, userEstimatedIncome };
@@ -114,33 +119,40 @@ export const autoLoanApplication = (state = initialState, action) => {
       const userCreditScore = parseInt(payload, 10); //Making sure the apyload is a integer number
       let uiHints = ``;
       let flags = state.flags;
-      if (flags === 2 || flags === 5) {
+      if (flags === 2 || flags === 4) {
         //HERE verify first the purchase price
         uiHints =
           "Remember, your purchase price is out of our range for an auto loan";
       } else {
-        //Here verify income and then/else credit score
-        if ((userCreditScore >= 600) & (flags === 4)) {
-          uiHints = "Your credit scores look good!";
-          flags = 4; //Keep flag state to fall in price greater than income
-        } else if ((userCreditScore >= 600) & (flags === 1)) {
-          uiHints = "Your credit scores look good!";
-          flags = 1; //Keep flag state to fall in price is ok
-        } else if ((userCreditScore < 600) & (flags === 4)) {
+        //Here verify income and credit score
+        if ((userCreditScore >= 600) & (flags === 3)) {
           uiHints =
-            "Tip 5: Your credit scores must be at least 600 pts or more.";
-          flags = 7;
+            "Your credit scores look good. Perhaps, your income might be lower than the purchase price.";
+          flags = 6;
+        } else if ((userCreditScore >= 600) & (flags === 1)) {
+          uiHints = "Your credit scores and everything else looks good";
+          //Keep flag state to fall in everything is ok
+          flags = 1;
+        } else if ((userCreditScore < 600) & (flags === 3)) {
+          uiHints =
+            "Credit scores are lower than the minimun (600) and your income might be lower than the purchase price. This will denied the loan, please correct credit scores and income";
+          //Keep flag state to fall in income is lower
+          flags = 3;
         } else if ((userCreditScore < 600) & (flags === 1)) {
           uiHints =
             "Tip 5: Your credit scores must be at least 600 pts or more.";
-          flags = 6;
+          flags = 5;
         } else if (userCreditScore < 600) {
           uiHints =
             "Tip 5: Your credit scores must be at least 600 pts or more.";
-          flags = 6;
+          flags = 5;
+        } else if ((userCreditScore >= 600) & (flags === 1)) {
+          uiHints = "Your credit scores and everithing else looks good.";
+          //Keep flags state to fall in everything is ok
+          flags = 1;
         } else if (userCreditScore >= 600) {
-          uiHints = "Your credit scores look good!";
-          flags = 1; //Keep flag state to fall in price is ok
+          uiHints = "Your credit scores looks good!";
+          flags = 1;
         }
       }
       return { ...state, uiHints, flags, userCreditScore };

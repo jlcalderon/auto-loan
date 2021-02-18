@@ -12,11 +12,10 @@ const ApplicationReults = () => {
   //flags codes:
   /* 1 Data of price, income and credit are correct  */
   /* 2 Purchase price above 1,000,000 not elegible for loan BAD REQUEST*/
-  /* 3 Income is lower than a purchase price */
-  /* 4 Purchase price is greater than a 1/5th of income */
-  /* 5 Purchase price is 0 or purchase price < 0 BAD REQUEST*/
-  /* 6 Credit scores are lower than 600*/
-  /* 7 Credit scores are ok but price is greater than 1/5th fo the income */
+  /* 3 Income is lower than a purchase price or price is greater than a 1/5th of income */
+  /* 4 Purchase price is 0 or purchase price < 0 BAD REQUEST*/
+  /* 5 Credit scores are lower than 600*/
+  /* 6 Credit scores are ok but price is greater than 1/5th fo the income */
 
   let history = useHistory();
   const dispatch = useDispatch();
@@ -24,7 +23,7 @@ const ApplicationReults = () => {
 
   useEffect(() => {
     /* And here I am using the flags logic to resolve a response according to what the user pre-qualification results should be */
-    if (flags === 2 || flags === 5) {
+    if (flags === 2 || flags === 4) {
       //Handle bad request
       //This code is meant to serve as a mock fetch from an API.
       new Promise(function (resolve) {
@@ -61,7 +60,7 @@ const ApplicationReults = () => {
       });
     }
 
-    if (flags === 3 || flags === 4) {
+    if (flags === 3 || flags === 5) {
       //Handle income issues with the request
       //This code is meant to serve as a mock fetch from an API.
       new Promise(function (resolve) {
@@ -80,7 +79,7 @@ const ApplicationReults = () => {
       });
     }
 
-    if (flags === 7) {
+    if (flags === 6) {
       //Request with credit scores ok but price is not
       //This code is meant to serve as a mock fetch from an API.
       new Promise(function (resolve) {
@@ -98,8 +97,8 @@ const ApplicationReults = () => {
         dispatch({ type: "STORE_API_RESPONSE", payload: res });
       });
     }
-    if (flags === 6) {
-      //Handle request with with lowe credit scores
+    if (flags === 5) {
+      //Handle request with with low credit scores
       //This code is meant to serve as a mock fetch from an API.
       new Promise(function (resolve) {
         setTimeout(() => {
