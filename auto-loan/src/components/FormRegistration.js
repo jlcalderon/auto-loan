@@ -10,10 +10,13 @@ const FormRegistration = () => {
   //State of the input fields
   const [emailField, setEmailField] = useState("");
   const [passwordField, setPasswordField] = useState("");
-  const [confirmPasswordField, setMatchPasswordField] = useState("");
+  const [confirmPasswordField, setConfirmPasswordField] = useState("");
   //State constants of the UI feedback
   const [passwordFeedback, setPasswordFeedback] = useState("");
   const [confirmFeedback, setConfirmFeedback] = useState("");
+
+  //State constant to display button in the case of a password match
+  const [displayBtn, setDisplayBtn] = useState(false); //default to no display
 
   useEffect(() => {
     setPasswordFeedback(
@@ -84,8 +87,18 @@ const FormRegistration = () => {
     }
   }, [passwordField]); //watches for changes in the state constant of passwordField
 
+  useEffect(() => {
+    if (passwordField === confirmPasswordField) {
+      setConfirmFeedback("Perfect! password confirmation match");
+      setDisplayBtn(true);
+    } else {
+      setConfirmFeedback("Pasword confirmation does NOT match");
+      setDisplayBtn(false);
+    }
+  }, [confirmPasswordField]); //Watch for changes in the confirm password field
+
   return (
-    <form>
+    <form onSubmit={}>
       <div className="form-group">
         <input
           type="email"
@@ -107,6 +120,7 @@ const FormRegistration = () => {
             //Update state constant
             setPasswordField(event.target.value);
           }}
+          required
         />
         <small>{passwordFeedback}</small>
       </div>
@@ -115,22 +129,32 @@ const FormRegistration = () => {
           type="password"
           className="form-control"
           placeholder="Confirm your password"
-        />
-      </div>
-      <div className="form-group">
-        <button
-          type="submit"
-          className="btn btn-success"
-          style={{
-            backgroundColor: "#28833e",
-            color: "#ffffff",
-            borderRadius: "20px",
-            width: "100%",
+          value={confirmPasswordField}
+          onChange={(event) => {
+            setConfirmPasswordField(event.target.value);
           }}
-        >
-          SIGN UP
-        </button>
+          required
+        />
+        {confirmPasswordField.length >= passwordField.length ? (
+          <small>{confirmFeedback}</small>
+        ) : null}
       </div>
+      {displayBtn ? (
+        <div className="form-group">
+          <button
+            type="submit"
+            className="btn btn-success"
+            style={{
+              backgroundColor: "#28833e",
+              color: "#ffffff",
+              borderRadius: "20px",
+              width: "100%",
+            }}
+          >
+            SIGN UP
+          </button>
+        </div>
+      ) : null}
     </form>
   );
 };
