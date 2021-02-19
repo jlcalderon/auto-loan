@@ -18,6 +18,9 @@ const FormRegistration = () => {
   //State constant to display button in the case of a password match
   const [displayBtn, setDisplayBtn] = useState(false); //default to no display
 
+  //State user object to dispatch/submit post req to an API later
+  const [newUser, setNewUser] = useState({}); //default to empty JSON object
+
   useEffect(() => {
     setPasswordFeedback(
       "Password must be at least 8 characters long, include 1 number at the end, 1 special character (!,@,#,$,%,&,*) and 1 capital letter"
@@ -98,7 +101,14 @@ const FormRegistration = () => {
   }, [confirmPasswordField]); //Watch for changes in the confirm password field
 
   return (
-    <form onSubmit={}>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault(); //Always a good practice to call preventDefault() first when submitting a form
+        setNewUser({ userName: emailField, password: passwordField }); //Storing user on local state object
+        //Here do a post request later or default the post method and action to an API route
+        console.log(newUser);
+      }}
+    >
       <div className="form-group">
         <input
           type="email"
