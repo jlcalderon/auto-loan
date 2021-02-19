@@ -86,7 +86,7 @@ export const autoLoanApplication = (state = initialState, action) => {
       if (flags === 2 || flags === 4) {
         //HERE verify first the purchase price
         uiHints =
-          "Your estimated yearly income must be greater than the purchase price typed above. Remember, your purchase price is not enough for a considering you for an auto loan";
+          "1/5th of your estimated yearly income must be greater than the purchase price typed above. Also purchase price 0, or above of 1,000,000 are not correct";
         //Flags remain with the privious setting of wrong purchase price
       } else {
         //If purchase price is correct go over verifying the income
@@ -98,7 +98,7 @@ export const autoLoanApplication = (state = initialState, action) => {
               userEstimatedIncome.data.income < userEstimatedIncome.data.price
           )
         ) {
-          uiHints = `Your income is lower than the purchase price, please correct the yearly income field`;
+          uiHints = `Your income is lower than 1/5th of the purchase price, please correct the yearly income field`;
           flags = 3;
         } else if (
           userEstimatedIncome.data.price <=

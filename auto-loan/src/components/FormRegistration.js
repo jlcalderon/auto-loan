@@ -25,6 +25,7 @@ const FormRegistration = () => {
     setPasswordFeedback(
       "Password must be at least 8 characters long, include 1 number at the end, 1 special character (!,@,#,$,%,&,*) and 1 capital letter"
     ); //Set password UI feedback when component did mount occurs
+    setDisplayBtn(false);
   }, []);
 
   useEffect(() => {
@@ -88,6 +89,7 @@ const FormRegistration = () => {
         "Make sure you have 1 number at the end, 1 special character (!,@,#,$,%,&,*), 1 capital letter, and your password is 8 characters long"
       );
     }
+    setDisplayBtn(false);
   }, [passwordField]); //watches for changes in the state constant of passwordField
 
   useEffect(() => {
