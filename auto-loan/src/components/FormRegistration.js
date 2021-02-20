@@ -109,6 +109,7 @@ const FormRegistration = () => {
         setNewUser({ userName: emailField, password: passwordField }); //Storing user on local state object
         //Here do a post request later or default the post method and action to an API route
         console.log(newUser);
+        //Wipe the state to default
       }}
     >
       <div className="form-group">

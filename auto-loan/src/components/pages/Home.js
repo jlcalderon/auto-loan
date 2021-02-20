@@ -3,12 +3,11 @@ import { useSelector } from "react-redux";
 import "./Home.css";
 import FormApplication from "../FormApplication";
 import Navbar from "../Navbar";
-import Footer from "../Footer";
 
 const Home = () => {
   const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);
   return (
-    <div>
+    <div className="full-width">
       <Navbar />
       <div className="container-wrapper">
         <div className="row">
@@ -30,6 +29,9 @@ const Home = () => {
             </div>
           </div>
           <div className="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <h1 className="sub-jumbo">
+              Step 1: Fill out the auto loan application
+            </h1>
             <div className="form-wrapper">
               <div className="forms">
                 <p>
@@ -37,16 +39,35 @@ const Home = () => {
                   eligibility.
                 </p>
                 <FormApplication />
-                <div className="msg-box">
-                  <hr />
-                  <p>{uiHints}</p>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
+      <div id="notifications" className="uiHints">
+        {`${uiHints} `}
+        <span
+          onClick={() => {
+            document
+              .getElementById("notifications")
+              .classList.remove("uiHints");
+            document
+              .getElementById("notifications")
+              .classList.add("hideUiHints");
+          }}
+          style={{
+            margin: "250px",
+            padding: "10px",
+            backgroundColor: "#7e002a",
+            fontStyle: "italic",
+            fontSize: "18px",
+            color: "#ffffff",
+            borderRadius: "5px",
+          }}
+        >
+          x
+        </span>
+      </div>
     </div>
   );
 };

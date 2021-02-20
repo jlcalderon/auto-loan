@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import "./ApplicationResults.css";
 import FormRegistration from "../FormRegistration";
 import Navbar from "../Navbar";
-import Footer from "../Footer";
 
 const ApplicationReults = () => {
   const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);
@@ -68,7 +67,7 @@ const ApplicationReults = () => {
           resolve({
             title: "There is an issue with your application",
             body:
-              "Unfortunately, you are not eligible for a loan to make your auto purchase due the purchase price that you are appling for and your income. Please contact us for more information: 999 999 9999",
+              "Unfortunately, you are not eligible for a loan to make your auto purchase due the price that you are applying for and your income. Please contact us for more information: 999 999 9999",
             code: 201, //http request status code
           });
         }, 1000);
@@ -121,67 +120,85 @@ const ApplicationReults = () => {
   const resStatusCode = responseAPI.code;
 
   return (
-    <div>
+    <div className="full-width" style={{ textAlign: "center" }}>
       <Navbar />
-      <div
-        className="container"
-        style={{ margin: "25px", textAlign: "center" }}
-      >
-        <h1 className="sub-jumbo">{uiHints}</h1>
-        {/* Conditional rendering */}
-        {resStatusCode === 200 ? ( //apiResponse positive
-          <div className="container-wrapper">
-            <div className="row">
-              <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <h1 className="sub-jumbo">
-                  Congratulations you qualify for an auto loan!
-                </h1>
-              </div>
+      {/* //Notifications */}
+      <div id="notifications" className="uiHints">
+        {`${uiHints} `}
+        <span
+          onClick={() => {
+            document
+              .getElementById("notifications")
+              .classList.remove("uiHints");
+            document
+              .getElementById("notifications")
+              .classList.add("hideUiHints");
+          }}
+          style={{
+            margin: "250px",
+            padding: "10px",
+            backgroundColor: "#7e002a",
+            fontStyle: "italic",
+            fontSize: "18px",
+            color: "#ffffff",
+            borderRadius: "5px",
+          }}
+        >
+          x
+        </span>
+      </div>
+      {/* Conditional rendering */}
+      {resStatusCode === 200 ? ( //apiResponse positive
+        <div className="container-wrapper">
+          <div className="row">
+            <div className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <h1 className="sub-jumbo">
+                Congratulations you qualify for an auto loan!
+              </h1>
             </div>
-            <div className="row">
-              <div className="col-sm-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 offset-xl-4 col-xl-4">
-                <h1 className="sub-jumbo">Step 2: Create Your Account</h1>
-                <div className="form-wrapper">
-                  <div className="forms">
-                    <FormRegistration />
-                  </div>
+          </div>
+          <div className="row">
+            <div className="col-sm-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4 offset-xl-4 col-xl-4">
+              <h1 className="sub-jumbo">Step 2: Create Your Account</h1>
+              <div className="form-wrapper">
+                <div className="forms">
+                  <FormRegistration />
                 </div>
               </div>
             </div>
           </div>
-        ) : null}
+        </div>
+      ) : null}
 
-        {/*if apiResponse is a bad request status code*/}
-        {resStatusCode === 400 ? (
-          <div className="container">
-            <div
-              className="row"
-              style={{ marginTop: "45px", textAlign: "center" }}
-            >
-              <div className="col">
-                <h5>HTTP Request Status Code: {responseAPI.code}</h5>
-                <h5>{responseAPI.title}</h5>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <p
-                  style={{
-                    padding: "50px",
-                    textAlign: "justify",
-                  }}
-                >
-                  {responseAPI.body}
-                </p>
-              </div>
+      {/*if apiResponse is a bad request status code*/}
+      {resStatusCode === 400 ? (
+        <div className="container">
+          <div
+            className="row"
+            style={{ marginTop: "45px", textAlign: "center" }}
+          >
+            <div className="col">
+              <h5>HTTP Request Status Code: {responseAPI.code}</h5>
+              <h5>{responseAPI.title}</h5>
             </div>
           </div>
-        ) : null}
+          <div className="row">
+            <div className="col">
+              <p
+                style={{
+                  padding: "50px",
+                  textAlign: "justify",
+                }}
+              >
+                {responseAPI.body}
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
-        {/* if apiResponse negative*/}
-        {resStatusCode === 201 ? history.push("/disqualification") : null}
-      </div>
-      <Footer />
+      {/* if apiResponse negative*/}
+      {resStatusCode === 201 ? history.push("/disqualification") : null}
     </div>
   );
 };
