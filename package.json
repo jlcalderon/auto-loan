@@ -4,7 +4,8 @@
   "description": "This app guide users on the initial steps to get a loan to purchase a car",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "if-env": "^1.0.4"
   },
   "devDependencies": {
     "concurrently": "^6.0.0",
