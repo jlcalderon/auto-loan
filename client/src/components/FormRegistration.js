@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import "./FormRegistration.css";
 
 const FormRegistration = () => {
+  // Global redux state of user
+  const user = useSelector((state) => state.userData.user);
+  const loanApplication = useSelector(
+    (state) => state.autoLoanApplication.loanApplication
+  );
+  const dispatch = useDispatch();
   //State level constants to verify password requirements, this would be toggle at onChange of password input
   const [hasLenght, setHasLenght] = useState(false); //default to false
   const [hasNumbers, setHasNumbers] = useState(false); //default to false
@@ -19,13 +26,14 @@ const FormRegistration = () => {
   const [displayBtn, setDisplayBtn] = useState(false); //default to no display
 
   //State user object to dispatch/submit post req to an API later
-  const [newUser, setNewUser] = useState({}); //default to empty JSON object
+  const [newUser, setNewUser] = useState(); //default to empty JSON object
 
   useEffect(() => {
     setPasswordFeedback(
       "Password must be at least 8 characters long, include 1 number at the end, 1 special character (!,@,#,$,%,&,*) and 1 capital letter"
     ); //Set password UI feedback when component did mount occurs
     setDisplayBtn(false);
+    setNewUser({});
   }, []);
 
   useEffect(() => {
@@ -93,7 +101,11 @@ const FormRegistration = () => {
   }, [passwordField]); //watches for changes in the state constant of passwordField
 
   useEffect(() => {
-    if (passwordField === confirmPasswordField) {
+    if (
+      passwordField === confirmPasswordField &&
+      passwordField !== "" &&
+      confirmPasswordField !== ""
+    ) {
       setConfirmFeedback("Perfect! password confirmation match");
       setDisplayBtn(true);
     } else {
@@ -102,14 +114,18 @@ const FormRegistration = () => {
     }
   }, [confirmPasswordField]); //Watch for changes in the confirm password field
 
+  useEffect(() => {
+    console.log(newUser);
+    //Here do a post request later or default the post method and fire the action to hit an API route
+    dispatch({ type: "SUBMIT_REGISTRATION_FORM", payload: newUser });
+  }, [newUser]);
+
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault(); //Always a good practice to call preventDefault() first when submitting a form
         setNewUser({ userName: emailField, password: passwordField }); //Storing user on local state object
-        //Here do a post request later or default the post method and action to an API route
-        console.log(newUser);
-        //Wipe the state to default
+        //Wipe the state of the loan application to default initialState {}
       }}
     >
       <div className="form-group">

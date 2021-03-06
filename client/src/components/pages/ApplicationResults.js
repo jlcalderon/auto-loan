@@ -116,7 +116,7 @@ const ApplicationReults = () => {
     }
 
     /* In a real world situation here we would make a fetch, axios.get, or ajax.get request instead of the function and logic above */
-  });
+  }, []);
   const resStatusCode = responseAPI.code;
 
   return (
