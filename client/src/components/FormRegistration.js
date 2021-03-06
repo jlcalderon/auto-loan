@@ -33,8 +33,7 @@ const FormRegistration = () => {
       "Password must be at least 8 characters long, include 1 number at the end, 1 special character (!,@,#,$,%,&,*) and 1 capital letter"
     ); //Set password UI feedback when component did mount occurs
     setDisplayBtn(false);
-    setNewUser({});
-  }, []);
+  }, []); //When component did mount set up UI according to begging creating a new user
 
   useEffect(() => {
     //1 Verify lenght is more than 8 characters
@@ -116,16 +115,18 @@ const FormRegistration = () => {
 
   useEffect(() => {
     console.log(newUser);
-    //Here do a post request later or default the post method and fire the action to hit an API route
+    //Here do a post request later or fire the action to hit an API route or send payload to a thunk to handle side effects
+    //Adding user object to the redux state
     dispatch({ type: "SUBMIT_REGISTRATION_FORM", payload: newUser });
-  }, [newUser]);
+  }, [newUser]); //Watch when state of newUser is changed
 
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault(); //Always a good practice to call preventDefault() first when submitting a form
         setNewUser({ userName: emailField, password: passwordField }); //Storing user on local state object
-        //Wipe the state of the loan application to default initialState {}
+        //Wipe the state of the results of the loan application to default {}
+        dispatch({ type: "STORE_API_RESPONSE", payload: {} });
       }}
     >
       <div className="form-group">

@@ -14,6 +14,7 @@ const Home = () => {
   return (
     <div className="full-width">
       <Navbar />
+      {/* //Conditional rendering when there are results send user back to the next page, when not render the home initial page */}
       {JSON.stringify(applicationResults) === "{}" ? (
         <div className="container-wrapper">
           <div className="row">
