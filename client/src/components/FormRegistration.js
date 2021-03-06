@@ -127,6 +127,28 @@ const FormRegistration = () => {
         setNewUser({ userName: emailField, password: passwordField }); //Storing user on local state object
         //Wipe the state of the results of the loan application to default {}
         dispatch({ type: "STORE_API_RESPONSE", payload: {} });
+        //Display msg of new user created
+        dispatch({
+          type: "UPDATE_MSG",
+          payload: `Congratulations your user was created successfully. End of this demo`,
+        });
+
+        //Display notifications div if it was hidden
+        document
+          .getElementById("notifications")
+          .classList.remove("hideUiHints");
+        document.getElementById("notifications").classList.add("uiHints");
+
+        //Wipe out local state of the input texts
+        setEmailField("");
+        setPasswordField("");
+        setConfirmPasswordField("");
+        //Set passwordFeedback to initial state
+        setPasswordFeedback(
+          "Password must be at least 8 characters long, include 1 number at the end, 1 special character (!,@,#,$,%,&,*) and 1 capital letter"
+        );
+        //Set passwordConfirmation to initial state
+        setConfirmPasswordField("");
       }}
     >
       <div className="form-group">

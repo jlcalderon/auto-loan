@@ -56,6 +56,11 @@ const FormApplication = ({
           type: "UPDATE_MSG",
           payload: "Thank you for submitting your loan pre-qualification form",
         });
+        //Display notifications div if it was hidden
+        document
+          .getElementById("notifications")
+          .classList.remove("hideUiHints");
+        document.getElementById("notifications").classList.add("uiHints");
       }}
     >
       <div className="form-group">
@@ -69,6 +74,11 @@ const FormApplication = ({
           onValueChange={(value) => {
             onChangePurchasePrice(parseInt(value, 10));
             setPurchasePrice(parseInt(value, 10));
+            //Display notifications div if it was hidden
+            document
+              .getElementById("notifications")
+              .classList.remove("hideUiHints");
+            document.getElementById("notifications").classList.add("uiHints");
           }}
           className="form-control"
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
@@ -83,6 +93,11 @@ const FormApplication = ({
           onChange={(event) => {
             onChangeAutoMake(event.target.value);
             setAutoMake(event.target.value);
+            //Display notifications div if it was hidden
+            document
+              .getElementById("notifications")
+              .classList.remove("hideUiHints");
+            document.getElementById("notifications").classList.add("uiHints");
           }}
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
         />
@@ -96,6 +111,11 @@ const FormApplication = ({
           onChange={(event) => {
             onChangeAutoModel(event.target.value);
             setAutoModel(event.target.value);
+            //Display notifications div if it was hidden
+            document
+              .getElementById("notifications")
+              .classList.remove("hideUiHints");
+            document.getElementById("notifications").classList.add("uiHints");
           }}
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
         />
@@ -116,6 +136,11 @@ const FormApplication = ({
               },
             });
             setIncome(parseInt(value, 10));
+            //Display notifications div if it was hidden
+            document
+              .getElementById("notifications")
+              .classList.remove("hideUiHints");
+            document.getElementById("notifications").classList.add("uiHints");
           }}
           className="form-control"
           required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
@@ -135,6 +160,13 @@ const FormApplication = ({
               onChange={(event) => {
                 onChangeCreditScore(parseInt(event.target.value, 10));
                 setCreditScore(parseInt(event.target.value, 10));
+                //Display notifications div if it was hidden
+                document
+                  .getElementById("notifications")
+                  .classList.remove("hideUiHints");
+                document
+                  .getElementById("notifications")
+                  .classList.add("uiHints");
               }}
               required //this attribute/prop of HTML5 would not let the users by pass filling this field out. That will avoid a user error of submitting empty blank fields
             />

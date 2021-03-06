@@ -6,7 +6,7 @@ import FormRegistration from "../FormRegistration";
 import Navbar from "../Navbar";
 
 const ApplicationReults = () => {
-  const uiHints = useSelector((state) => state.autoLoanApplication.uiHints);
+  const uiHints = useSelector((state) => state.uiHints.msg);
   const flags = useSelector((state) => state.autoLoanApplication.flags);
   //flags codes:
   /* 1 Data of price, income and credit are correct  */
