@@ -11,6 +11,7 @@ import {
 import "./FormApplication.css"; //Importing some styling for this component
 import CurrencyInput from "react-currency-input-field"; //This react wrapper validates data type currency/numbers
 import { useHistory } from "react-router-dom"; //Move to the next page to let user know about the results of the applications
+import { useSelector, useDispatch } from "react-redux";
 
 const FormApplication = ({
   onSubmitLoanFormApplication,
@@ -27,14 +28,14 @@ const FormApplication = ({
   const [income, setIncome] = useState(); //Handles the income input text field control
   const [creditScore, setCreditScore] = useState(600); //Handles the credit Score input range control
   let history = useHistory();
-
+  let dispatch = useDispatch();
   //Implementing useEffect hook to watch for changes in newApplication state of this component, to follow up with an update to the redux global state
   useEffect(() => {
     if (JSON.stringify(newApplication) !== "{}") {
       onSubmitLoanFormApplication(newApplication); //Calling the submit form action from the dispatch to props included in this component
       history.push("/myapplication");
     }
-  });
+  }, [newApplication]); //Watch for changes in newApplication state const
 
   return (
     <form
@@ -50,6 +51,10 @@ const FormApplication = ({
             applicant_income: parseInt(income, 10), //this how provisionally I am assuring the data type is going to be a integer number base 10, later this could be done by implementing Typescript
             applicant_credit_score: parseInt(creditScore, 10), //this how provisionally I am assuring the data type is going to be a integer number base 10, later this could be done by implementing Typescript
           },
+        });
+        dispatch({
+          type: "UPDATE_MSG",
+          payload: "Thank you for submitting your loan pre-qualification form",
         });
       }}
     >

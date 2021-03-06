@@ -5,6 +5,7 @@ import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import { autoLoanApplication } from "./components/reducers/LoanApplication";
 import { autoLoanApplicationResults } from "./components/reducers/ApplicationResults";
 import { userData } from "./components/reducers/Users";
+import { uiHints } from "./components/reducers/UIhints";
 
 const persistConfig = {
   key: "root",
@@ -16,6 +17,7 @@ const rootReducers = combineReducers({
   autoLoanApplication,
   autoLoanApplicationResults,
   userData,
+  uiHints,
 });
 const persistedReducers = persistReducer(persistConfig, rootReducers);
 
