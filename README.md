@@ -35,7 +35,7 @@ This app is using the **MIT** license. For more information about the **MIT** li
 
 ## Design_Specs
 
-To achive better results and have a clear idea of the UI of this application, for this project I use the Figma platform to design a high fidelity wireframe of the app and follow it up througout the CSS layout. Here is a link of the [`begining of this project`](https://www.figma.com/files/project/19851673/Pre-Qualification-Auto-Loan-Web-App?fuid=915755752343741330)
+To achive better results and have a clear idea of the UI of this application, for this project I use the Figma platform to design a high fidelity wireframe of the app and follow it up througout the CSS layout. Here is a link of the [`beginning of this project`](https://www.figma.com/files/project/19851673/Pre-Qualification-Auto-Loan-Web-App?fuid=915755752343741330)
 
 ## Installation
 
